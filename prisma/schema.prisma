@@ -12,3 +12,97 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Bucket {
+  id          String   @id @default(cuid())
+  name        String
+  desc        String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+model Application {
+  id        String   @id @default(cuid())
+  name      String
+  desc      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Config {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ApplicationConfig {
+  @@id([applicationId, configId])
+  applicationId String
+  configId      String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Message {
+  id          String   @id @default(cuid())
+  content     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model BucketMessage {
+  @@id([bucketId, messageId])
+  bucketId      String
+  messageId     String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Session {
+  id          String   @id @default(cuid())
+  session     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model BucketSession {
+  @@id([bucketId, sessionId])
+  bucketId     String
+  sessionId    String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model BucketApplication {
+  @@id([applicationId, bucketId])
+  applicationId String
+  bucketId      String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Task {
+  id          String   @id @default(cuid())
+  name        String
+  desc        String
+  enabled     Boolean
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Setting {
+  id          String   @id @default(cuid())
+  key         String
+  value       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model TasksSetting {
+  @@id([taskId, settingId])
+  taskId      String
+  settingId   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
